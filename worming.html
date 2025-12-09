@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <title>API Test</title>
+  <style>
+    body {
+      background: #111;
+      color: white;
+      font-family: Arial;
+      padding: 20px;
+    }
+    input, textarea, button {
+      width: 100%;
+      padding: 10px;
+      margin-top: 10px;
+      border-radius: 6px;
+      border: none;
+    }
+    button {
+      background: red;
+      color: white;
+      cursor: pointer;
+      font-size: 18px;
+    }
+    #responseBox {
+      background: #222;
+      padding: 15px;
+      margin-top: 15px;
+      white-space: pre-wrap;
+      border-radius: 6px;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>اتصال API عبر HTML</h2>
+
+  <textarea id="userInput" placeholder="اكتب نص للإرسال..." rows="4"></textarea>
+  <button onclick="sendRequest()">إرسال</button>
+
+  <h3>الرد من السيرفر:</h3>
+  <div id="responseBox">---</div>
+
+<script>
+async function sendRequest() {
+    const userText = document.getElementById("userInput").value;
+
+    // 🛑 غيّر هذه حسب API الذي لديك
+    const API_URL = "https://example.com/api/chat"; 
+    const API_KEY = "YOUR_API_KEY_HERE"; 
+
+    try {
+        const response = await fetch(API_URL, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer " + API_KEY,
+            },
+            body: JSON.stringify({
+                message: userText
+            })
+        });
+
+        const data = await response.json();
+        document.getElementById("responseBox").innerText = JSON.stringify(data, null, 2);
+
+    } catch (error) {
+        document.getElementById("responseBox").innerText = "خطأ أثناء الاتصال: " + error;
+    }
+}
+</script>
+
+</body>
+</html>
